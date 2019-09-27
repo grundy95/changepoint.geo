@@ -5,7 +5,7 @@ Version: 0.0.1
 Date: 2019-06-14
 Authors@R: c(person("Thomas","Grundy",role=c("aut","cre"),email="t.grundy1@lancaster.ac.uk"))
 Maintainer: Thomas Grundy <t.grundy1@lancaster.ac.uk>
-Description: Multivariate changepoint detection through the lens of geometry. These methods view the changepoint problem from a geometrical viewpoint and aim to extract relevant geometrical features in order to detect changepoints.
+Description: Multivariate changepoint detection. These methods view the changepoint problem from a geometrical viewpoint and aim to extract relevant geometrical features in order to detect changepoints.
 Depends: R(>= 3.1), changepoint, changepoint.np
 License: GPL
 LazyLoad: yes
