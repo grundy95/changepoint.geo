@@ -1,0 +1,8 @@
+ang.ts<--methods        ~~ Methods for Function 'ang.ts<-' ~~
+changepoint.geo-package
+                        Geometrically Inspired Changepoint Detection
+                        Methods
+class_input             Input all required arguments into cpt.geo class
+                        - Only intended for developer use.
+cpt.euclid              Identifying Changepoints using the Euclidean
+                        Distance
