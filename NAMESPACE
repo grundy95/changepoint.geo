@@ -1,0 +1,36 @@
+import(graphics)
+import(stats)
+import(changepoint)
+import(changepoint.np)
+importFrom("methods","new")
+
+export('geomcp','distance.mapping','angle.mapping')
+
+exportMethods(
+    "ang.cpts",
+    "ang.cpts<-",
+    "angle",
+    "angle<-",
+    "data.set",
+    "data.set<-",
+    "dist.cpts",
+    "dist.cpts<-",
+    "distance",
+    "distance<-",
+    "msl",
+    "msl<-",
+    "nquantiles",
+    "nquantiles<-",
+    "pen.value",
+    "pen.value<-",
+    "penalty",
+    "penalty<-",
+    "plot",
+    "show",
+    "summary",
+    "test.stat",
+    "test.stat<-" 
+)
+exportClasses(
+    "cpt.geo" 
+)

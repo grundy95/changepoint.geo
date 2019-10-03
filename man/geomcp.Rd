@@ -1,0 +1,72 @@
+\name{geomcp}
+\alias{geomcp}
+\title{
+	Multivariate changepoint detection via two geometric mappings
+}
+\description{
+	Performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. Univariate changepoint detection is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
+}
+\usage{
+geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 0,mad=FALSE,ref.vec='Default',ref.vec.value=0, class = TRUE)
+}
+\arguments{
+  \item{X}{
+	  A matrix containing the data which is of size n by p. Each row is a new time point and each column is a different series.
+}
+  \item{penalty}{
+	  Choice of "None", "SIC", "BIC", "MBIC", "AIC","Hannan-Quinn","Asymptotic","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter. If "Asymptotic" is specified, the theoretical type 1 error is contained in the pen.value parameter. The predefined penalties listed DO count the changepoint as a parameter, postfix a 0 e.g "SIC0" to NOT count the changepoint as a parameter.
+}
+  \item{pen.value}{
+	  The theoretical type 1 error e.g. 0.05 when using the Asymptotic penalty. The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
+}
+  \item{test.stat}{
+	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empricial" are supported.
+}
+  \item{msl}{
+	  Positive integer giving the minimum segment length (no. of observations between changes), default is 1.
+}
+  \item{nquantiles}{
+	  Only required for test.stat="Empricial". Number of quantiles used in estimating the empirical likelihood.
+}
+  \item{mad}{
+	  Logical. If TRUE transforms each series by subtracting the median of the series and dividing by the median absolute deviation.
+  }
+  \item{ref.vec}{
+	  Choice of "Default" or "Manual". If "Default" is specified the vector of ones is used as the reference vector. If "Manual" is selected, the manual reference vector is contained in the ref.vec.value parameter. 
+  }
+  \item{ref.vec.value}{
+	  The vector that is used as the reference vector for calculating distances and angles from.
+  }
+  \item{class}{
+	  Logical. If TRUE then an object of class \code{cpt.geo} is returned.
+}
+}
+\details{
+	This function centralizes all time vectors using the given reference vector and then performs the distance and angle mappings from the reference vector. The univariate changepoint method PELT is then used to detect changepoints in the distance and angle mappings which correspond to changes in the multivariate time series.
+}
+\value{
+	If \code{class=TRUE} then an object of S4 class "cpt.geo" is returned. The slots \code{dist.cpts} and \code{ang.cpts} return the changepoints identified in each measure. 
+}
+\references{
+Normal: Chen, J. and Gupta, A. K. (2000) \emph{Parametric statistical change point analysis}, Birkhauser
+
+PELT Algorithm: Killick R, Fearnhead P, Eckley IA (2012) Optimal detection of changepoints with a linear computational cost, \emph{JASA} \bold{107(500)}, 1590--1598
+
+MBIC: Zhang, N. R. and Siegmund, D. O. (2007) A Modified Bayes Information Criterion with Applications to the Analysis of Comparative Genomic Hybridization Data. \emph{Biometrics} \bold{63}, 22-32.
+}
+\author{
+	Thomas Grundy
+}
+\seealso{
+	\code{\link{plot-methods}},\code{\linkS4class{cpt.geo}}
+}
+\examples{
+X <- rbind(matrix(rnorm(100*50),ncol=50),matrix(rnorm(100*50,0,2),ncol=50))
+ans <- geomcp(X)
+summary(ans)
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{methods}% use one of  RShowDoc("KEYWORDS")
+\keyword{models}% __ONLY ONE__ keyword per line
+\keyword{ts}
