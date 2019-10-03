@@ -7,7 +7,7 @@
 	Performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. Univariate changepoint detection is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
 }
 \usage{
-geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 0,mad=FALSE,ref.vec='Default',ref.vec.value=0, class = TRUE)
+geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 0,mad=FALSE,ref.vec='Default',ref.vec.value=0)
 }
 \arguments{
   \item{X}{
@@ -20,13 +20,13 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
 	  The theoretical type 1 error e.g. 0.05 when using the Asymptotic penalty. The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
 }
   \item{test.stat}{
-	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empricial" are supported.
+	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empirical" are supported.
 }
   \item{msl}{
 	  Positive integer giving the minimum segment length (no. of observations between changes), default is 1.
 }
   \item{nquantiles}{
-	  Only required for test.stat="Empricial". Number of quantiles used in estimating the empirical likelihood.
+	  Only required for test.stat="Empirical". Number of quantiles used in estimating the empirical likelihood.
 }
   \item{mad}{
 	  Logical. If TRUE transforms each series by subtracting the median of the series and dividing by the median absolute deviation.
@@ -37,9 +37,6 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
   \item{ref.vec.value}{
 	  The vector that is used as the reference vector for calculating distances and angles from.
   }
-  \item{class}{
-	  Logical. If TRUE then an object of class \code{cpt.geo} is returned.
-}
 }
 \details{
 	This function centralizes all time vectors using the given reference vector and then performs the distance and angle mappings from the reference vector. The univariate changepoint method PELT is then used to detect changepoints in the distance and angle mappings which correspond to changes in the multivariate time series.
@@ -61,9 +58,16 @@ MBIC: Zhang, N. R. and Siegmund, D. O. (2007) A Modified Bayes Information Crite
 	\code{\link{plot-methods}},\code{\linkS4class{cpt.geo}}
 }
 \examples{
+##Variance change in all series
 X <- rbind(matrix(rnorm(100*50),ncol=50),matrix(rnorm(100*50,0,2),ncol=50))
 ans <- geomcp(X)
 summary(ans)
+
+##Mean change in 50% of series with a manual reference vector and non-parametric univariate changepoint detection using 10 quantiles with a BIC penalty and min seg length of 5
+Y <- rbind(matrix(rnorm(100*20),ncol=20),cbind(matrix(rnorm(100*10),ncol=10),matrix(rnorm(100*10,1),ncol=10)))
+res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5)
+summary(res)
+plot(res)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
