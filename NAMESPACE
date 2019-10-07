@@ -1,5 +1,6 @@
 import(graphics)
 import(stats)
+import(tidyverse)
 import(changepoint)
 import(changepoint.np)
 importFrom("methods","new")

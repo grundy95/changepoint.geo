@@ -73,7 +73,7 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
     \item{pen.value<-}{\code{signature(object = "cpt.geo")}: replaces pen.value slot. }
     \item{penalty}{\code{signature(object = "cpt.geo")}: retrieves penalty slot.}
     \item{penalty<-}{\code{signature(object = "cpt.geo")}: replaces penalty slot.}
-    \item{plot}{\code{signature(x = "cpt.geo")}: plots the cpt.geo object with changepoints highlighted.}
+    \item{plot}{\code{signature(object = "cpt.geo")}: returns an object from ggplot of the distance and angle mappings.}
     \item{show}{\code{signature(object = "cpt.geo")}: prints details of the cpt.geo object including a summary.}
     \item{summary}{\code{signature(object = "cpt.geo")}: prints a summary of the cpt.geo object.}
     \item{test.stat}{\code{signature(object = "cpt.geo")}: retrieves test.stat slot.}
@@ -85,7 +85,7 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
 }
 
 \seealso{
-	\code{\link{data.set-methods}},\code{\link{ang.cpts-methods}},\code{\link{dist.cpts-methods}},\code{\link{geomcp}}
+	\code{\link{data.set-methods}},\code{\link{ang.cpts-methods}},\code{\link{dist.cpts-methods}},\code{\link{geomcp}},\code{\link[=tidyverse]{ggplot}}
 }
 \examples{
 showClass("cpt.geo")	#shows the structure of the cpt.geo class.
@@ -100,7 +100,8 @@ x <- rbind(matrix(rnorm(100*50),ncol=50),matrix(rnorm(100*50,1),ncol=50))
 ans <- geomcp(x)
 ans	#prints details of the analysis including a summary
 summary(ans)	
-plot(ans)	#plots the mapped time series with changes in distances and angles shown at 100.
+myplot <- plot(ans)
+myplot#plots the mapped time series with changes in distances and angles shown at 100.
 }
 \keyword{classes}
 \keyword{internal}
