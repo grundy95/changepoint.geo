@@ -73,7 +73,7 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
     \item{pen.value<-}{\code{signature(object = "cpt.geo")}: replaces pen.value slot. }
     \item{penalty}{\code{signature(object = "cpt.geo")}: retrieves penalty slot.}
     \item{penalty<-}{\code{signature(object = "cpt.geo")}: replaces penalty slot.}
-    \item{plot}{\code{signature(x = "cpt.geo")}: returns an object from ggplot of the distance and angle mappings.}
+    \item{plot}{\code{signature(object = "cpt.geo")}: returns an object from ggplot of the distance and angle mappings.}
     \item{show}{\code{signature(object = "cpt.geo")}: prints details of the cpt.geo object including a summary.}
     \item{summary}{\code{signature(object = "cpt.geo")}: prints a summary of the cpt.geo object.}
     \item{test.stat}{\code{signature(object = "cpt.geo")}: retrieves test.stat slot.}

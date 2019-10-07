@@ -42,7 +42,7 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
 	This function centralizes all time vectors using the given reference vector and then performs the distance and angle mappings from the reference vector. The univariate changepoint method PELT is then used to detect changepoints in the distance and angle mappings which correspond to changes in the multivariate time series.
 }
 \value{
-	If \code{class=TRUE} then an object of S4 class "cpt.geo" is returned. The slots \code{dist.cpts} and \code{ang.cpts} return the changepoints identified in each measure. 
+	An object of S4 class "cpt.geo" is returned. The slots \code{dist.cpts} and \code{ang.cpts} return the changepoints identified in each measure. 
 }
 \references{
 Normal: Chen, J. and Gupta, A. K. (2000) \emph{Parametric statistical change point analysis}, Birkhauser
@@ -55,7 +55,7 @@ MBIC: Zhang, N. R. and Siegmund, D. O. (2007) A Modified Bayes Information Crite
 	Thomas Grundy
 }
 \seealso{
-	\code{\link{plot-methods}},\code{\linkS4class{cpt.geo}}
+	\code{\linkS4class{cpt.geo}}
 }
 \examples{
 ##Variance change in all series
