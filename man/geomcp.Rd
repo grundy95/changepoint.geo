@@ -7,7 +7,7 @@
 	Performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. Univariate changepoint detection is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
 }
 \usage{
-geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 0,mad=FALSE,ref.vec='Default',ref.vec.value=0)
+geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 1,MAD=FALSE,ref.vec='Default',ref.vec.value=0,parallelise=TRUE)
 }
 \arguments{
   \item{X}{
@@ -28,7 +28,7 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
   \item{nquantiles}{
 	  Only required for test.stat="Empirical". Number of quantiles used in estimating the empirical likelihood.
 }
-  \item{mad}{
+  \item{MAD}{
 	  Logical. If TRUE transforms each series by subtracting the median of the series and dividing by the median absolute deviation.
   }
   \item{ref.vec}{
@@ -36,6 +36,9 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
   }
   \item{ref.vec.value}{
 	  The vector that is used as the reference vector for calculating distances and angles from.
+  }
+  \item{parallelise}{
+	  Logical. If TRUE parallelises the two mappings and subsequent changepoint detection, only works for non-Windows operating systems.
   }
 }
 \details{
@@ -62,10 +65,11 @@ MBIC: Zhang, N. R. and Siegmund, D. O. (2007) A Modified Bayes Information Crite
 X <- rbind(matrix(rnorm(100*50),ncol=50),matrix(rnorm(100*50,0,2),ncol=50))
 ans <- geomcp(X)
 summary(ans)
+plot(ans)
 
 ##Mean change in 50% of series with a manual reference vector and non-parametric univariate changepoint detection using 10 quantiles with a BIC penalty and min seg length of 5
 Y <- rbind(matrix(rnorm(100*20),ncol=20),cbind(matrix(rnorm(100*10),ncol=10),matrix(rnorm(100*10,1),ncol=10)))
-res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5)
+res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5,parallelise=FALSE)
 summary(res)
 plot(res)
 }

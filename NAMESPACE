@@ -4,6 +4,9 @@ import(tidyverse)
 import(changepoint)
 import(changepoint.np)
 importFrom("methods","new")
+import(parallel)
+import(doParallel)
+import(foreach)
 
 export('geomcp','distance.mapping','angle.mapping')
 
