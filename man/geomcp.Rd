@@ -37,9 +37,6 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
   \item{ref.vec.value}{
 	  The vector that is used as the reference vector for calculating distances and angles from.
   }
-  \item{parallelise}{
-	  Logical. If TRUE parallelises the two mappings and subsequent changepoint detection, only works for non-Windows operating systems.
-  }
 }
 \details{
 	This function centralizes all time vectors using the given reference vector and then performs the distance and angle mappings from the reference vector. The univariate changepoint method PELT is then used to detect changepoints in the distance and angle mappings which correspond to changes in the multivariate time series.
@@ -69,7 +66,7 @@ plot(ans)
 
 ##Mean change in 50% of series with a manual reference vector and non-parametric univariate changepoint detection using 10 quantiles with a BIC penalty and min seg length of 5
 Y <- rbind(matrix(rnorm(100*20),ncol=20),cbind(matrix(rnorm(100*10),ncol=10),matrix(rnorm(100*10,1),ncol=10)))
-res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5,parallelise=FALSE)
+res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5)
 summary(res)
 plot(res)
 }

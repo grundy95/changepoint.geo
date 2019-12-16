@@ -1,4 +1,4 @@
-geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquantiles=1,MAD=FALSE,ref.vec='Default',ref.vec.value=0,parallelise=TRUE){
+geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquantiles=1,MAD=FALSE,ref.vec='Default',ref.vec.value=0){
 	#Error catching
 	if(!is.numeric(X)){
 		stop("Only numeric data allowed")
@@ -44,9 +44,6 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	if(!is.logical(MAD)){
 		stop('MAD should be logical; TRUE or FALSE.')
 	}
-	if(!is.logical(parallelise)){
-		stop('parallelise should be logical; TRUE or FALSE. Will only parallelise on non-Windows operating systems.')
-	}
 	##
 	
 	##Copy of original data
@@ -61,63 +58,25 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	min.X <- apply(X,2,min)-ref.vec.value
 	X <- t(apply(X,1,function(x){x-min.X}))
 
-	if(!parallelise){
-		#Projection
-		X.dist <- distance.mapping(X,ref.vec.value)
-		X.ang <- angle.mapping(X,ref.vec.value)
-	#
+	#Projection
+	X.dist <- distance.mapping(X,ref.vec.value)
+	X.ang <- angle.mapping(X,ref.vec.value)
 
-		#Univariate changepoint detection
-		if(test.stat=='Normal'){
-			dist.cpts.ans <- cpt.meanvar(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',param.estimates=FALSE,minseglen=msl,class=TRUE)
-			ang.cpts.ans <- cpt.meanvar(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',param.estimates=FALSE,minseglen=msl,class=TRUE)
-		}
-		else if(test.stat=='Empirical'){
-			dist.cpts.ans <- cpt.np(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
-			ang.cpts.ans <- cpt.np(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
-		}else{
-			stop('Invalid test statistic, must be Normal or Empirical')
-		}
-		out <- class_input(data.set=X.original,distance=X.dist,angle=X.ang,penalty=penalty,pen.value=pen.value(dist.cpts.ans),test.stat=test.stat,msl=msl,nquantiles=nquantiles,dist.cpts=cpts(dist.cpts.ans),ang.cpts=cpts(ang.cpts.ans))
-		return(out)
+	#Univariate changepoint detection
+	if(test.stat=='Normal'){
+		dist.cpts.ans <- cpt.meanvar(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',param.estimates=FALSE,minseglen=msl,class=TRUE)
+		ang.cpts.ans <- cpt.meanvar(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',param.estimates=FALSE,minseglen=msl,class=TRUE)
 	}
-
-	##
-
-	fork <- function(i){
-		if(i==1){
-			X.dist <- distance.mapping(X,ref.vec.value)
-			if(test.stat=='Normal'){
-				dist.cpts.ans <- changepoint::cpt.meanvar(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',param.estimates=FALSE,minseglen=msl,class=TRUE)
-			}	
-			else if(test.stat=='Empirical'){
-				dist.cpts.ans <- changepoint.np::cpt.np(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
-			}else{
-				stop('Invalid test statistic, must be Normal or Empirical')
-			}
-			return(list('X.dist'=X.dist,'dist.cpts'=dist.cpts.ans))
-		}else{
-			X.ang <- angle.mapping(X,ref.vec.value)
-			if(test.stat=='Normal'){
-				ang.cpts.ans <- changepoint::cpt.meanvar(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',param.estimates=FALSE,minseglen=msl,class=TRUE)
-			}	
-			else if(test.stat=='Empirical'){
-				ang.cpts.ans <- changepoint.np::cpt.np(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
-			}else{
-				stop('Invalid test statistic, must be Normal or Empirical')
-			}
-			return(list('X.ang'=X.ang,'ang.cpts'=ang.cpts.ans))
-		}
+	else if(test.stat=='Empirical'){
+		dist.cpts.ans <- cpt.np(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
+		ang.cpts.ans <- cpt.np(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
+	}else{
+		stop('Invalid test statistic, must be Normal or Empirical')
 	}
-	cl <- parallel::makeForkCluster(2)
-	doParallel::registerDoParallel(cl)
-	ans <- foreach(i=1:2) %dopar%{
-		fork(i)
-	}
-	parallel::stopCluster(cl)
 
 	#Class Structure
-	out <- class_input(data.set=X.original,distance=ans[[1]]$X.dist,angle=ans[[2]]$X.ang,penalty=penalty,pen.value=pen.value(ans[[1]]$dist.cpts),test.stat=test.stat,msl=msl,nquantiles=nquantiles,dist.cpts=cpts(ans[[1]]$dist.cpts),ang.cpts=cpts(ans[[2]]$ang.cpts))
+	out <- class_input(data.set=X.original,distance=X.dist,angle=X.ang,penalty=penalty,pen.value=pen.value(dist.cpts.ans),test.stat=test.stat,msl=msl,nquantiles=nquantiles,dist.cpts=cpts(dist.cpts.ans),ang.cpts=cpts(ang.cpts.ans))
+
 	return(out)
 }
 
