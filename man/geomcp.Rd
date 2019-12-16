@@ -7,7 +7,7 @@
 	Performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. Univariate changepoint detection is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
 }
 \usage{
-geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 1,MAD=FALSE,ref.vec='Default',ref.vec.value=0,parallelise=TRUE)
+geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 1,MAD=FALSE,ref.vec='Default',ref.vec.value=0)
 }
 \arguments{
   \item{X}{
