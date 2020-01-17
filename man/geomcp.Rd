@@ -14,10 +14,10 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquant
 	  A matrix containing the data which is of size n by p. Each row is a new time point and each column is a different series.
 }
   \item{penalty}{
-	  Choice of "None", "SIC", "BIC", "MBIC", "AIC","Hannan-Quinn","Asymptotic","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter. If "Asymptotic" is specified, the theoretical type 1 error is contained in the pen.value parameter. The predefined penalties listed DO count the changepoint as a parameter, postfix a 0 e.g "SIC0" to NOT count the changepoint as a parameter.
+	  Penalty choice for univariate changepoint analysis of mappings. Choice of "MBIC", "SIC", "BIC", "MBIC", "Hannan-Quinn","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter.
 }
   \item{pen.value}{
-	  The theoretical type 1 error e.g. 0.05 when using the Asymptotic penalty. The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
+	  The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
 }
   \item{test.stat}{
 	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empirical" are supported.

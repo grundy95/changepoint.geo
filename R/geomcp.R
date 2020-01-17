@@ -44,6 +44,9 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	if(!is.logical(MAD)){
 		stop('MAD should be logical; TRUE or FALSE.')
 	}
+	if(!(penalty %in% c('MBIC','BIC','SIC','Manual','Hannan-Quinn'))){
+	       stop('Univariate penalty choice not recognized; should be "MBIC", "BIC", "SIC","Hannan-Quinn" or "Manual"')
+	}	
 	##
 	
 	##Copy of original data
