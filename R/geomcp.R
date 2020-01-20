@@ -1,8 +1,5 @@
 geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquantiles=1,MAD=FALSE,ref.vec='Default',ref.vec.value=0){
 	#Error catching
-	if(!is.numeric(X)){
-		stop("Only numeric data allowed")
-	}
 	if(!is.matrix(X)){
 		if(is.data.frame(X)){
 			X <- as.matrix(X)
@@ -10,8 +7,14 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 			stop("Data type must be a matrix or data frame")
 		}
 	}
+	if(length(X[1,])<2){
+		stop('Univariate changepoint analysis is not supported')
+	}
 	if(anyNA(X)){
 		stop("Missing value: NA is not allowed in the data")
+	}
+	if(!is.numeric(X)){
+		stop("Only numeric data allowed")
 	}
 	if(!((test.stat=='Normal')||(test.stat=="Empirical"))){
 		stop('Invalid test statistic, must be Normal or Empirical')
@@ -29,13 +32,15 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	}
 	if(ref.vec=='Default'){
 		ref.vec.value <- rep(1,length(X[1,]))
-	}
-	else if(ref.vec=='Manual'){
+	}else if(ref.vec=='Manual'){
 		if(!is.numeric(ref.vec.value)){
 			stop("Reference vector value should be a vector of type numeric")
 		}
 		if(length(ref.vec.value)!=length(X[1,])){
 			stop('Length of reference vector is not the same as number of series in data')
+		}
+		if(ref.vec.value==rep(0,length(X[1,]))){
+			stop('Reference vector cannot be the origin as angle undefined.')
 		}
 	}
 	else{
@@ -47,6 +52,10 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	if(!(penalty %in% c('MBIC','BIC','SIC','Manual','Hannan-Quinn'))){
 	       stop('Univariate penalty choice not recognized; should be "MBIC", "BIC", "SIC","Hannan-Quinn" or "Manual"')
 	}	
+	if(msl<1|msl>floor(length(X[,1])/2)){
+		stop('Minimum segment length must be between 1 and half the no. of time points (rounded down)')
+	}
+
 	##
 	
 	##Copy of original data
@@ -55,6 +64,9 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	##mad Transformation
 	if(MAD){
 		X <- apply(X,2,function(x){(x-median(x))/mad(x)})
+		if(sum(is.nan(X))>0){
+			stop('Unable to perform MAD transformation')
+		}
 	}
 
 	##Data centralization
