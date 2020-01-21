@@ -1,7 +1,7 @@
 Package: GeometricChangepoint
 Type: Package
 Title: Geometrically Inspired Multivariate Changepoint Detection
-Version: 0.4.1
+Version: 0.4.2
 Date: 2019-09-30
 Authors@R: c(person("Thomas","Grundy",role=c("aut","cre"),email="t.grundy1@lancaster.ac.uk"))
 Maintainer: Thomas Grundy <t.grundy1@lancaster.ac.uk>
