@@ -1,5 +1,6 @@
 geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquantiles=1,MAD=FALSE,ref.vec='Default',ref.vec.value=0){
-	#Error catching
+	##{{{Error catching
+	#Data
 	if(!is.matrix(X)){
 		if(is.data.frame(X)){
 			X <- as.matrix(X)
@@ -16,9 +17,35 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	if(!is.numeric(X)){
 		stop("Only numeric data allowed")
 	}
-	if(!((test.stat=='Normal')||(test.stat=="Empirical"))){
-		stop('Invalid test statistic, must be Normal or Empirical')
+
+	#penalty type
+	penalty <- toupper(penalty)
+	if(!(penalty %in% c('MBIC','BIC','SIC','MANUAL','HANNAN-QUINN'))){
+	       stop('Univariate penalty choice not recognized; should be "MBIC", "BIC", "SIC","Hannan-Quinn" or "Manual"')
+	}else if(penalty=='MANUAL'){
+		penalty <- 'Manual'
+	}else if(penalty=='HANNAN-QUINN'){
+		penalty <- 'Hannan-Quinn'
 	}
+
+	#pen.value - Errors caught in changepoint package
+
+	#test statistic
+	test.stat <- toupper(test.stat)
+	if(!((test.stat=='NORMAL')||(test.stat=="EMPIRICAL"))){
+		stop('Invalid test statistic, must be Normal or Empirical')
+	}else if(test.stat=='NORMAL'){
+		test.stat='Normal'
+	}else{
+		test.stat='Empirical'
+	}
+
+	#minimum segment length
+	if(msl<1|msl>floor(length(X[,1])/2)){
+		stop('Minimum segment length must be between 1 and half the no. of time points (rounded down)')
+	}
+
+	#no of quantiles
 	nquantiles <- as.integer(nquantiles)
 	if((nquantiles<1)){
 		stop("Number of quantiles must be a positive integer")
@@ -30,33 +57,31 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 		nquantiles <- 1
 		warning('nquantiles is not used with a Normal test statistic')
 	}
-	if(ref.vec=='Default'){
-		ref.vec.value <- rep(1,length(X[1,]))
-	}else if(ref.vec=='Manual'){
-		if(!is.numeric(ref.vec.value)){
-			stop("Reference vector value should be a vector of type numeric")
-		}
-		if(length(ref.vec.value)!=length(X[1,])){
-			stop('Length of reference vector is not the same as number of series in data')
-		}
-		if(ref.vec.value==rep(0,length(X[1,]))){
-			stop('Reference vector cannot be the origin as angle undefined.')
-		}
-	}
-	else{
-		stop('Reference vector type not recognized; should be "Default" or "Manual".')
-	}
+	
+	#MAD transformation
 	if(!is.logical(MAD)){
 		stop('MAD should be logical; TRUE or FALSE.')
 	}
-	if(!(penalty %in% c('MBIC','BIC','SIC','Manual','Hannan-Quinn'))){
-	       stop('Univariate penalty choice not recognized; should be "MBIC", "BIC", "SIC","Hannan-Quinn" or "Manual"')
-	}	
-	if(msl<1|msl>floor(length(X[,1])/2)){
-		stop('Minimum segment length must be between 1 and half the no. of time points (rounded down)')
+	
+	#Reference vector & Reference vector value
+	ref.vec <- toupper(ref.vec)
+	if(ref.vec=='DEFAULT'){
+		ref.vec.value <- rep(1,length(X[1,]))
+		ref.vec <- 'Default'
+	}else if(ref.vec=='MANUAL'){
+		if(!is.numeric(ref.vec.value)){
+			stop("Reference vector value should be a vector of type numeric")
+		}else if(length(ref.vec.value)!=length(X[1,])){
+			stop('Length of reference vector is not the same as number of series in data')
+		}else if(isTRUE(all.equal(ref.vec.value,rep(0,length(X[1,]))))){
+			stop('Reference vector cannot be the origin as angle undefined.')
+		}else{
+			ref.vec <- 'Manual'
+		}
+	}else{
+		stop('Reference vector type not recognized; should be "Default" or "Manual".')
 	}
-
-	##
+	##}}}
 	
 	##Copy of original data
 	X.original <- X
@@ -69,7 +94,7 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 		}
 	}
 
-	##Data centralization
+	##Data Translation
 	min.X <- apply(X,2,min)-ref.vec.value
 	X <- t(apply(X,1,function(x){x-min.X}))
 

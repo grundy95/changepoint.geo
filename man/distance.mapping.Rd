@@ -4,7 +4,7 @@
 	Euclidean distance mapping
 }
 \description{
-	Calculates the Euclidean distance of each centralized time vector to the reference vector.
+	Calculates the Euclidean distance of each time vector to the reference vector. Note data points are not translated in this function and error checking is not performed!
 }
 \usage{
 distance.mapping(X,ref.vec.value=rep(1,length(X[1,])))
@@ -18,7 +18,7 @@ distance.mapping(X,ref.vec.value=rep(1,length(X[1,])))
 	}
 }
 \details{
-	This function calculates the Euclidean distance between each time vector and the reference vector. Note the centralization within \code{geomcp} happens outside of the function.
+	This function calculates the Euclidean distance between each time vector and the reference vector. Note the translation within \code{geomcp} happens outside of the function.
 }
 \value{
 	A vector of length n is returned with the distance mapping for each time point.

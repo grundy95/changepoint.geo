@@ -7,14 +7,11 @@ library('MASS')
 set.seed(1)
 mu <- runif(100,-5,5)
 Sigma <- runif(100,0.1,4)
-SingleMeanData <- rbind(mvrnorm(100,mu=mu,Sigma=diag(Sigma)),mvrnorm(100,mu=mu+0.3,Sigma=diag(Sigma)))
-MultiMeanData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma)))
+MeanData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma)))
 
-SingleVarData <- rbind(mvrnorm(100,mu=mu,Sigma=diag(Sigma)),mvrnorm(100,mu=mu,Sigma=diag(Sigma*1.3)))
-MultiVarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu,Sigma=diag(Sigma*1.3)),mvrnorm(50,mu=mu,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma*1.2)))
+VarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu,Sigma=diag(Sigma*1.3)),mvrnorm(50,mu=mu,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma*1.2)))
 
-SingleMeanVarData <- rbind(mvrnorm(100,mu=mu,Sigma=diag(Sigma)),mvrnorm(100,mu=mu+0.2,Sigma=diag(Sigma*1.2)))
-MultiMeanVarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
+MeanVarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
 
 NullData <- mvrnorm(200,mu=mu,Sigma=diag(Sigma))
 
@@ -22,24 +19,24 @@ ConstantData <- matrix(rep(runif(100,-0.5,0.5),100),byrow=TRUE,ncol=100,nrow=200
 
 CharacterData <- matrix('test',ncol=100,nrow=200)
 
-NAData <- SingleMeanData
-rn <- c(sample(1:length(SingleMeanData[,1]),10,replace=FALSE),sample(1:length(SingleMeanData[1,]),10,replace=TRUE))
+NAData <- MeanData
+rn <- c(sample(1:length(MeanData[,1]),10,replace=FALSE),sample(1:length(MeanData[1,]),10,replace=TRUE))
 for(i in 1:(length(rn)/2)){
 	NAData[rn[i],rn[i+10]] <- NA
 }
 
 UnivariateData <- rnorm(200)
 ##}}}
-data <- list(SingleMeanData,MultiMeanData,SingleVarData,MultiVarData,SingleMeanVarData,MultiMeanVarData,NullData,ConstantData,CharacterData,NAData,UnivariateData)
-data_names <- c('SingleMeanData','MultiMeanData','SingleVarData','MultiVarData','SingleMeanVarData','MultiMeanVarData','NullData','ConstantData','CharacterData','NAData','UnivariateData')
-penalties <- c('MBIC','SIC','BIC','MBIC','Hannan-Quinn','Manual')
+data <- list(MeanData,VarData,MeanVarData,NullData,ConstantData,CharacterData,NAData,UnivariateData)
+data_names <- c('MeanData','VarData','MeanVarData','NullData','ConstantData','CharacterData','NAData','UnivariateData')
+penalties <- c('MBIC','SIC','BIC','MBIC','Hannan-Quinn','Manual','mbic')
 ManPenValue <- c(20,-1)
-TestStats <- c('Normal','Empirical','NORMAL')
+TestStats <- c('Normal','Empirical','NOrMAL')
 NoQuantiles <- c(10,-1)
 msl <- c(20,-1,400)
 Mad <- c(TRUE,FALSE)
-ReferenceVector <- c('Default','Manual')
-ReferenceVectorValue <- list(runif(100),rep(0,length(SingleMeanData[1,])),1)
+ReferenceVector <- c('Default','Manual','manual')
+ReferenceVectorValue <- list(runif(100),rep(0,length(MeanData[1,])),1)
 ReferenceVectorValue_names <- c('Random','Zero','Scalar')
 t <- 0
 
@@ -67,7 +64,7 @@ CheckOtherPenalties <- function(){
 				test_that(paste0('Test #',t,'. Data: ',data_names[d],'MAD: ',Mad[md]),{
 					expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),'Unable to perform MAD transformation')
 				})
-			}else if(penalties%in%c('MBIC','SIC','BIC','MBIC','Hannan-Quinn')){
+			}else if(toupper(penalties[p])%in%c('MBIC','SIC','BIC','MBIC','HANNAN-QUINN')){
 				X <- geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]])
 				expect_is(X,'cpt.geo')
 			}
@@ -106,38 +103,20 @@ for(d in 1:length(data)){
 		})
 		t <- t+1
 	}else{
-#		print(paste('data',d))
-#		invisible(readline(prompt="Press [enter] to continue"))
 		for(p in 1:length(penalties)){
-		#	print(paste('penalty',p))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 			for(mpv in 1:length(ManPenValue)){
-		#		print(paste('ManPenVal',mpv))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 				for(ts in 1:length(TestStats)){
-		#			print(paste('testStat',ts))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 					for(nq in 1:length(NoQuantiles)){
-		#				print(paste('NoQuantiles',nq))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 						for(m in 1:length(msl)){
-		#					print(paste('msl',m))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 							for(md in 1:length(Mad)){
-		#						print(paste('MAD',md))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 								for(rv in 1:length(ReferenceVector)){
-		#							print(paste('refVec',rv))
-		#	invisible(readline(prompt="Press [enter] to continue"))
 									for(rvv in 1:length(ReferenceVectorValue_names)){
-		#								print(paste('refVecVal',rvv))
-		#	invisible(readline(prompt="Press [enter] to continue"))
-										if(penalties[p]=='Manual'){
-											if(!(TestStats[ts]%in%c('Normal','Empirical'))|!is.numeric(NoQuantiles[nq])|NoQuantiles[nq]<1|msl[m]<1|msl[m]>(floor(length(data[[d]][,1])/2))|!is.logical(Mad[md])|!(ReferenceVector[rv]%in%c('Default','Manual'))){
+										if(toupper(penalties[p])=='MANUAL'){
+											if(!(toupper(TestStats[ts])%in%c('NORMAL','EMPIRICAL'))|!is.numeric(NoQuantiles[nq])|NoQuantiles[nq]<1|msl[m]<1|msl[m]>(floor(length(data[[d]][,1])/2))|!is.logical(Mad[md])|!(toupper(ReferenceVector[rv])%in%c('DEFAULT','MANUAL'))){
 												test_that(paste0('Test #',t,'. Data: ',data_names[d],'. Penalty: ',penalties[p],'. ManPenValue: ',ManPenValue[mpv],'. Test Stat: ',TestStats[ts],'. NoQunatiles: ',NoQuantiles[nq],'. MinSegLen: ',msl[m],'. MAD: ',Mad[md],'. ReferenceVector: ',ReferenceVector[rv],'. ReferenceVectorValue: ',ReferenceVectorValue_names[rvv]),{
 													expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),)
 												})
-											}else if(ReferenceVector[rv]=='Manual'&(length(ReferenceVectorValue[[rvv]])!=length(data[[d]][1,])|isTRUE(all.equal(ReferenceVectorValue[[rvv]],rep(0,length(data[[d]][1,])))))){
+											}else if(toupper(ReferenceVector[rv])=='MANUAL'&(length(ReferenceVectorValue[[rvv]])!=length(data[[d]][1,])|isTRUE(all.equal(ReferenceVectorValue[[rvv]],rep(0,length(data[[d]][1,])))))){
 												test_that(paste0('Test #',t,'. Data: ',data_names[d],'. Penalty: ',penalties[p],'. ManPenValue: ',ManPenValue[mpv],'. Test Stat: ',TestStats[ts],'. NoQunatiles: ',NoQuantiles[nq],'. MinSegLen: ',msl[m],'. MAD: ',Mad[md],'. ReferenceVector: ',ReferenceVector[rv],'. ReferenceVectorValue: ',ReferenceVectorValue_names[rvv]),{
 													expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),)
 												})
@@ -145,11 +124,11 @@ for(d in 1:length(data)){
 												CheckManualPenalty()
 											}
 										}else{
-											if(!(TestStats[ts]%in%c('Normal','Empirical'))|!is.numeric(NoQuantiles[nq])|NoQuantiles[nq]<1|msl[m]<1|msl[m]>(floor(length(data[[d]][,1])/2))|!is.logical(Mad[md])|!(ReferenceVector[rv]%in%c('Default','Manual'))){
+											if(!(toupper(TestStats[ts])%in%c('NORMAL','EMPIRICAL'))|!is.numeric(NoQuantiles[nq])|NoQuantiles[nq]<1|msl[m]<1|msl[m]>(floor(length(data[[d]][,1])/2))|!is.logical(Mad[md])|!(toupper(ReferenceVector[rv])%in%c('DEFAULT','MANUAL'))){
 												test_that(paste0('Test #',t,'. Data: ',data_names[d],'. Penalty: ',penalties[p],'. ManPenValue: ',ManPenValue[mpv],'. Test Stat: ',TestStats[ts],'. NoQunatiles: ',NoQuantiles[nq],'. MinSegLen: ',msl[m],'. MAD: ',Mad[md],'. ReferenceVector: ',ReferenceVector[rv],'. ReferenceVectorValue: ',ReferenceVectorValue_names[rvv]),{
 													expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),)
 												})
-											}else if(ReferenceVector[rv]=='Manual'&(length(ReferenceVectorValue[[rvv]])!=length(data[[d]][1,])|isTRUE(all.equal(ReferenceVectorValue[[rvv]],rep(0,length(data[[d]][1,])))))){
+											}else if(toupper(ReferenceVector[rv])=='MANUAL'&(length(ReferenceVectorValue[[rvv]])!=length(data[[d]][1,])|isTRUE(all.equal(ReferenceVectorValue[[rvv]],rep(0,length(data[[d]][1,])))))){
 												test_that(paste0('Test #',t,'. Data: ',data_names[d],'. Penalty: ',penalties[p],'. ManPenValue: ',ManPenValue[mpv],'. Test Stat: ',TestStats[ts],'. NoQunatiles: ',NoQuantiles[nq],'. MinSegLen: ',msl[m],'. MAD: ',Mad[md],'. ReferenceVector: ',ReferenceVector[rv],'. ReferenceVectorValue: ',ReferenceVectorValue_names[rvv]),{
 													expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),)
 												})
