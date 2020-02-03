@@ -7,11 +7,9 @@ library('MASS')
 set.seed(1)
 mu <- runif(100,-5,5)
 Sigma <- runif(100,0.1,4)
-MeanData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma)))
-
-VarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu,Sigma=diag(Sigma*1.3)),mvrnorm(50,mu=mu,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.3,Sigma=diag(Sigma*1.2)))
-
 MeanVarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
+
+DataFrameData <- as.data.frame(MeanVarData)
 
 NullData <- mvrnorm(200,mu=mu,Sigma=diag(Sigma))
 
@@ -19,25 +17,25 @@ ConstantData <- matrix(rep(runif(100,-0.5,0.5),100),byrow=TRUE,ncol=100,nrow=200
 
 CharacterData <- matrix('test',ncol=100,nrow=200)
 
-NAData <- MeanData
-rn <- c(sample(1:length(MeanData[,1]),10,replace=FALSE),sample(1:length(MeanData[1,]),10,replace=TRUE))
+NAData <- MeanVarData
+rn <- c(sample(1:length(MeanVarData[,1]),10,replace=FALSE),sample(1:length(MeanVarData[1,]),10,replace=TRUE))
 for(i in 1:(length(rn)/2)){
 	NAData[rn[i],rn[i+10]] <- NA
 }
 
-UnivariateData <- rnorm(200)
+UnivariateData <- as.matrix(rnorm(200),ncol=1,nrow=200)
 ##}}}
-data <- list(MeanData,VarData,MeanVarData,NullData,ConstantData,CharacterData,NAData,UnivariateData)
-data_names <- c('MeanData','VarData','MeanVarData','NullData','ConstantData','CharacterData','NAData','UnivariateData')
-penalties <- c('MBIC','SIC','BIC','MBIC','Hannan-Quinn','Manual','mbic')
+data <- list(MeanVarData,DataFrameData,NullData,ConstantData,CharacterData,NAData,UnivariateData)
+data_names <- c('MeanVarData','DataFrameData','NullData','ConstantData','CharacterData','NAData','UnivariateData')
+penalties <- c('MBIC','SIC','BIC','MBIC','Hannan-Quinn','Manual','mbic','AIC')
 ManPenValue <- c(20,-1)
-TestStats <- c('Normal','Empirical','NOrMAL')
-NoQuantiles <- c(10,-1)
+TestStats <- c('Normal','Empirical','NOrMAL','Gamma')
+NoQuantiles <- c(1,10,-1)
 msl <- c(20,-1,400)
-Mad <- c(TRUE,FALSE)
-ReferenceVector <- c('Default','Manual','manual')
-ReferenceVectorValue <- list(runif(100),rep(0,length(MeanData[1,])),1)
-ReferenceVectorValue_names <- c('Random','Zero','Scalar')
+Mad <- c(TRUE,FALSE,'yes')
+ReferenceVector <- c('Default','Manual','manual',TRUE)
+ReferenceVectorValue <- list(runif(100),rep(0,length(MeanVarData[1,])),1,TRUE)
+ReferenceVectorValue_names <- c('Random','Zero','Scalar','Logical')
 t <- 0
 
 
@@ -89,7 +87,7 @@ for(d in 1:length(data)){
 		t <- t+1
 	}else if(length(data[[d]][1,])<2){
 		test_that(paste0('Test #',t,'. Data: ',data_names[d]),{
-			expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),'Univariate changepoint analysis not supported')
+			expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),'Univariate changepoint analysis is not supported')
 		})
 		t <- t+1
 	}else if(length(data[[d]][,1])<2){
@@ -97,7 +95,7 @@ for(d in 1:length(data)){
 			expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),'Minimum segment length is too large to include a change in this data')
 		})
 		t <- t+1
-	}else if(!is.numeric(data[[d]])){
+	}else if(!is.numeric(data[[d]])&!is.data.frame(data[[d]])){
 		test_that(paste0('Test #',t,'. Data: ',data_names[d]),{
 			expect_error(geomcp(X=data[[d]],penalty=penalties[p],pen.value=ManPenValue[mpv],test.stat=TestStats[ts],msl=msl[m],nquantiles=NoQuantiles[nq],MAD=Mad[md],ref.vec=ReferenceVector[rv],ref.vec.value=ReferenceVectorValue[[rvv]]),'Only numeric data allowed')
 		})
