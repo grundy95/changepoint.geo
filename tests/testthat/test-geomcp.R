@@ -5,17 +5,17 @@ library('MASS')
 
 ##{{{Data Creation
 set.seed(1)
-mu <- runif(100,-5,5)
-Sigma <- runif(100,0.1,4)
-MeanVarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
+mu <- runif(50,-5,5)
+Sigma <- runif(50,0.1,4)
+MeanVarData <- rbind(mvrnorm(30,mu=mu,Sigma=diag(Sigma)),mvrnorm(30,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(30,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(30,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
 
 DataFrameData <- as.data.frame(MeanVarData)
 
-NullData <- mvrnorm(200,mu=mu,Sigma=diag(Sigma))
+NullData <- mvrnorm(100,mu=mu,Sigma=diag(Sigma))
 
-ConstantData <- matrix(rep(runif(100,-0.5,0.5),100),byrow=TRUE,ncol=100,nrow=200)
+ConstantData <- matrix(rep(runif(50,-0.5,0.5),100),byrow=TRUE,ncol=50,nrow=100)
 
-CharacterData <- matrix('test',ncol=100,nrow=200)
+CharacterData <- matrix('test',ncol=50,nrow=100)
 
 NAData <- MeanVarData
 rn <- c(sample(1:length(MeanVarData[,1]),10,replace=FALSE),sample(1:length(MeanVarData[1,]),10,replace=TRUE))
@@ -23,18 +23,18 @@ for(i in 1:(length(rn)/2)){
 	NAData[rn[i],rn[i+10]] <- NA
 }
 
-UnivariateData <- as.matrix(rnorm(200),ncol=1,nrow=200)
+UnivariateData <- as.matrix(rnorm(100),ncol=1,nrow=100)
 ##}}}
 data <- list(MeanVarData,DataFrameData,NullData,ConstantData,CharacterData,NAData,UnivariateData)
 data_names <- c('MeanVarData','DataFrameData','NullData','ConstantData','CharacterData','NAData','UnivariateData')
-penalties <- c('MBIC','SIC','BIC','MBIC','Hannan-Quinn','Manual','mbic','AIC')
+penalties <- c('MBIC','SIC','BIC','Hannan-Quinn','Manual','mbic','AIC')
 ManPenValue <- c(20,-1)
 TestStats <- c('Normal','Empirical','NOrMAL','Gamma')
 NoQuantiles <- c(1,10,-1)
 msl <- c(20,-1,400)
 Mad <- c(TRUE,FALSE,'yes')
 ReferenceVector <- c('Default','Manual','manual',TRUE)
-ReferenceVectorValue <- list(runif(100),rep(0,length(MeanVarData[1,])),1,TRUE)
+ReferenceVectorValue <- list(runif(50),rep(0,length(MeanVarData[1,])),1,TRUE)
 ReferenceVectorValue_names <- c('Random','Zero','Scalar','Logical')
 t <- 0
 

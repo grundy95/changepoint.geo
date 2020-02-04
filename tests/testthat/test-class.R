@@ -4,9 +4,9 @@ library('testthat')
 library('MASS')
 
 set.seed(1)
-mu <- runif(100,-5,5)
-Sigma <- runif(100,0.1,4)
-MeanVarData <- rbind(mvrnorm(50,mu=mu,Sigma=diag(Sigma)),mvrnorm(50,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(50,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(50,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
+mu <- runif(50,-5,5)
+Sigma <- runif(50,0.1,4)
+MeanVarData <- rbind(mvrnorm(30,mu=mu,Sigma=diag(Sigma)),mvrnorm(30,mu=mu+0.2,Sigma=diag(Sigma*1.2)),mvrnorm(30,mu=mu-0.1,Sigma=diag(Sigma*0.9)),mvrnorm(30,mu=mu+0.1,Sigma=diag(Sigma*1.1)))
 
 X <- geomcp(MeanVarData)
 test_that(paste0('Test cpt.geo class'),{
@@ -22,8 +22,5 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(X@dist.cpts,'integer')
 		  expect_is(X@ang.cpts,'integer')
 })
-summary(X)
-show(X)
-plot(X)
 
 
