@@ -9,7 +9,7 @@ r:
   - oldrel
   - release
   - devel
-
+travis_wait
 r_packages:
   - covr
 after_success:
