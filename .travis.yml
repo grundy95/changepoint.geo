@@ -4,7 +4,7 @@ cache: packages
 warnings_are_errors: true
 r_check_revdep: false
 install: travis_wait 30 mvn install
-r: travis_wait
+r:
   - 3.2
   - oldrel
   - release
