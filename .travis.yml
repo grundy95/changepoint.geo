@@ -4,10 +4,10 @@ cache: packages
 warnings_are_errors: true
 r_check_revdep: false
 r:
-  - 3.2
-  - oldrel
-  - release
-  - devel
+  - travis_wait 3.2
+  - travis_wait oldrel
+  - travis_wait release
+  - travis_wait devel
 
 r_packages:
   - covr
