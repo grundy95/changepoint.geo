@@ -7,35 +7,36 @@
 	Performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. Univariate changepoint detection is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
 }
 \usage{
-geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2, nquantiles = 1,MAD=FALSE,ref.vec='Default',ref.vec.value=0)
+geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,nquantiles=1,
+       MAD=FALSE,ref.vec='Default',ref.vec.value=0)
 }
 \arguments{
   \item{X}{
 	  A matrix containing the data which is of size n by p. Each row is a new time point and each column is a different series.
 }
   \item{penalty}{
-	  Penalty choice for univariate changepoint analysis of mappings. Choice of "MBIC", "SIC", "BIC", "MBIC", "Hannan-Quinn","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter.
+	  Penalty choice for univariate changepoint analysis of mappings. Choice of "MBIC", "SIC", "BIC", "MBIC", "Hannan-Quinn","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter. Default is 'MBIC'.
 }
   \item{pen.value}{
-	  The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
+	  The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use. Default is 0.
 }
   \item{test.stat}{
-	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empirical" are supported.
+	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empirical" are supported. Default is "Normal".
 }
   \item{msl}{
 	  Positive integer giving the minimum segment length (no. of observations between changes), default is 1.
 }
   \item{nquantiles}{
-	  Only required for test.stat="Empirical". Number of quantiles used in estimating the empirical likelihood.
+	  Only required for test.stat="Empirical". Number of quantiles used in estimating the empirical likelihood. Default is 1.
 }
   \item{MAD}{
-	  Logical. If TRUE transforms each series by subtracting the median of the series and dividing by the median absolute deviation.
+	  Logical. If TRUE transforms each series by subtracting the median of the series and dividing by the median absolute deviation. Default is FALSE.
   }
   \item{ref.vec}{
-	  Choice of "Default" or "Manual". If "Default" is specified the vector of ones is used as the reference vector. If "Manual" is selected, the manual reference vector is contained in the ref.vec.value parameter. 
+	  Choice of "Default" or "Manual". If "Default" is specified the vector of ones is used as the reference vector. If "Manual" is selected, the manual reference vector is contained in the ref.vec.value parameter. Default is "Default". 
   }
   \item{ref.vec.value}{
-	  The vector that is used as the reference vector for calculating distances and angles from.
+	  The vector that is used as the reference vector for calculating distances and angles from. Default is 0.
   }
 }
 \details{
@@ -64,10 +65,15 @@ ans <- geomcp(X)
 summary(ans)
 plot(ans)
 
-##Mean change in 50% of series with a manual reference vector and non-parametric univariate changepoint detection using 10 quantiles with a BIC penalty and min seg length of 5
-Y <- rbind(matrix(rnorm(100*20),ncol=20),cbind(matrix(rnorm(100*10),ncol=10),matrix(rnorm(100*10,1),ncol=10)))
-res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5)
+##Mean change in 50% of series with a manual reference vector and non-parametric 
+##univariate changepoint detection using 10 quantiles with a BIC penalty 
+##and min seg length of 5
+Y <- {rbind(matrix(rnorm(100*20),ncol=20),cbind(matrix(rnorm(100*10),ncol=10),
+	matrix(rnorm(100*10,1),ncol=10)))}
+res <- {geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,
+	ref.vec='Manual',ref.vec.value=seq(1,10,length.out=20),msl=5)}
 summary(res)
+show(res)
 plot(res)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

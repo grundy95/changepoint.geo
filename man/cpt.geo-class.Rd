@@ -85,12 +85,12 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
 }
 
 \seealso{
-	\code{\link{data.set-methods}},\code{\link{ang.cpts-methods}},\code{\link{dist.cpts-methods}},\code{\link{geomcp}},\code{\link[=tidyverse]{ggplot}}
+	\code{\link{data.set-methods}},\code{\link{ang.cpts-methods}},\code{\link{dist.cpts-methods}},\code{\link{geomcp}},\code{\link[=ggplot2]{ggplot}}
 }
 \examples{
 showClass("cpt.geo")	#shows the structure of the cpt.geo class.
 
-x=new('cpt.geo')	#creates a new object with the cpt.geo class defaults
+x <- new('cpt.geo')	#creates a new object with the cpt.geo class defaults
 dist.cpts(x)		#retrieves the dist.cpts slot from x
 dist.cpts(x) <- c(50,100) #replaces the dist.cpts slot from x with c(50,100)
 
