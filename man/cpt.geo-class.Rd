@@ -85,7 +85,7 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
 }
 
 \seealso{
-	\code{\link{data.set-methods}},\code{\link{ang.cpts-methods}},\code{\link{dist.cpts-methods}},\code{\link{geomcp}},\code{\link[=tidyverse]{ggplot}}
+	\code{\link{data.set-methods}},\code{\link{ang.cpts-methods}},\code{\link{dist.cpts-methods}},\code{\link{geomcp}},\code{\link[=ggplot2]{ggplot}}
 }
 \examples{
 showClass("cpt.geo")	#shows the structure of the cpt.geo class.
