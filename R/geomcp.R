@@ -110,10 +110,7 @@ geomcp <- function(X,penalty='MBIC',pen.value=0,test.stat='Normal',msl=2,nquanti
 	else if(test.stat=='Empirical'){
 		dist.cpts.ans <- cpt.np(X.dist,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
 		ang.cpts.ans <- cpt.np(X.ang,penalty=penalty,pen.value=pen.value,method='PELT',minseglen=msl,nquantiles=nquantiles,class=TRUE)
-	}else{
-		stop('Invalid test statistic, must be Normal or Empirical')
 	}
-
 	#Class Structure
 	out <- class_input(data.set=X.original,distance=X.dist,angle=X.ang,penalty=penalty,pen.value=pen.value(dist.cpts.ans),test.stat=test.stat,msl=msl,nquantiles=nquantiles,dist.cpts=cpts(dist.cpts.ans),ang.cpts=cpts(ang.cpts.ans))
 
