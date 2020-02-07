@@ -11,8 +11,7 @@
 	WARNING: No checks on arguments are performed!
 }
 \usage{
-class_input(data.set, distance, angle, penalty, pen.value, test.stat, 
-	    msl,nquantiles,dist.cpts,ang.cpts)
+class_input(data.set, distance, angle, penalty, pen.value, test.stat, msl, nquantiles, dist.cpts, ang.cpts)
 }
 \arguments{
   \item{data.set}{

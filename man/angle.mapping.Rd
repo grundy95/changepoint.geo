@@ -33,7 +33,7 @@ angle.mapping(X,ref.vec.value=rep(1,length(X[1,])))
 X <- rbind(matrix(rnorm(100*50,2),ncol=50),matrix(rnorm(100*50,2,4),ncol=50))
 ref.vec.value <- rep(1,50)
 ans <- angle.mapping(X,ref.vec.value)
-summary(ans)
+ans
 }
 \keyword{methods}
 \keyword{models}
