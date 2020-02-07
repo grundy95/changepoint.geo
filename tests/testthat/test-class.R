@@ -22,11 +22,6 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(X@dist.cpts,'integer')
 		  expect_is(X@ang.cpts,'integer')
 })
-test_that(paste0('PlotsSummaries'),{
-		  plot(X)
-		  summary(X)
-		  show(X)
-})
 
 
 

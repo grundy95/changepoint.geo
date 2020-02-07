@@ -209,7 +209,6 @@ setMethod('show','cpt.geo',function(object){
 
 #Plot function
 setMethod('plot','cpt.geo',function(x,ylab='Value',xlab='Time',changepoints=TRUE){
-	Distance <- Angle <- mapping <- value <- Cpts <- NULL
 	Data <- tibble(time=1:length(distance(x)),Distance=distance(x),Angle=angle(x))
 	Data <- Data %>%
 		gather(Distance,Angle,key='mapping',value='value')%>%
