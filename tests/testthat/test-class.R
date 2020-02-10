@@ -31,6 +31,9 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(nquantiles(X),'integer')
 		  expect_is(dist.cpts(X),'integer')
 		  expect_is(ang.cpts(X),'integer')
+		  expect_is(summary(X),'NULL')
+		  expect_is(show(X),'NULL')
+		  expect_is(plot(X),'ggplot')
 })
 
 
