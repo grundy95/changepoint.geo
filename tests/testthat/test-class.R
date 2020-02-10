@@ -21,6 +21,16 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(X@nquantiles,'integer')
 		  expect_is(X@dist.cpts,'integer')
 		  expect_is(X@ang.cpts,'integer')
+		  expect_is(data.set(X),'matrix')
+		  expect_is(distance(X),'numeric')
+		  expect_is(angle(X),'numeric')
+		  expect_is(penalty(X),'character')
+		  expect_is(pen.value(X),'numeric')
+		  expect_is(test.stat(X),'character')
+		  expect_is(msl(X),'numeric')
+		  expect_is(nquantiles(X),'integer')
+		  expect_is(dist.cpts(X),'integer')
+		  expect_is(ang.cpts(X),'integer')
 })
 
 
