@@ -209,15 +209,12 @@ setMethod('show','cpt.geo',function(object){
 
 #Plot function
 setMethod('plot','cpt.geo',function(x,ylab='Value',xlab='Time',changepoints=TRUE){
-	Distance <- Angle <- mapping <- value <- Cpts <- NULL
-	Data <- tibble(time=1:length(distance(x)),Distance=distance(x),Angle=angle(x))
-	Data <- Data %>%
-		gather(Distance,Angle,key='mapping',value='value')%>%
-		mutate(mapping=as.factor(mapping))
-	p <- ggplot(Data,aes(x=time,y=value))+geom_line()+facet_grid(mapping ~ .,scales='free')+labs(x=xlab,y=ylab)
+	Distance <- Angle <- Mapping <- Value <- Cpts <- Time <- NULL
+	Data <- data.frame(Time=rep(1:length(distance(x)),2),Mapping=as.factor(c(rep('Distance',length(distance(x))),rep('Angle',length(angle(x))))),Value=c(distance(x),angle(x)))
+	p <- ggplot(Data,aes(x=Time,y=Value))+geom_line()+facet_grid(Mapping ~ .,scales='free')+labs(x=xlab,y=ylab)
 	if((changepoints)&((length(ang.cpts(x))+length(dist.cpts(x))))>=1){
-		cpts.all <- tibble(mapping=c(rep('Distance',length(dist.cpts(x))),rep('Angle',length(ang.cpts(x)))),Cpts=c(dist.cpts(x),ang.cpts(x)))
-		p <- p+geom_vline(cpts.all,mapping=aes(xintercept=Cpts,color=mapping),linetype='longdash',size=1.2)+theme(legend.position='none')
+		cpts.all <- data.frame(Mapping=c(rep('Distance',length(dist.cpts(x))),rep('Angle',length(ang.cpts(x)))),Cpts=c(dist.cpts(x),ang.cpts(x)))
+		p <- p+geom_vline(cpts.all,mapping=aes(xintercept=Cpts,color=Mapping),linetype='longdash',size=1.2)+theme(legend.position='none')
 	}
 	return(p)
 })
