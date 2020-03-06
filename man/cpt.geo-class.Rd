@@ -104,7 +104,8 @@ myplot <- plot(ans)
 myplot#plots the mapped time series with changes in distances and angles shown at 100.
 myplot2 <- plot(ans,plot.type='full.data')
 myplot2
-myplot3 <- plot(ans,plot.type='series',show.series=c(1,2,40,41),add.mappings=TRUE,changepoints=FALSE)
+myplot3 <- plot(ans,plot.type='series',show.series=c(1,2,40,41),
+		add.mappings=TRUE,changepoints=FALSE)
 myplot3
 }
 \keyword{classes}
