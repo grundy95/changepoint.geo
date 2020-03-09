@@ -15,7 +15,7 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,
 	  A matrix containing the data which is of size n by p. Each row is a new time point and each column is a different series.
 }
   \item{penalty}{
-	  Penalty choice for univariate changepoint analysis of mappings. Choice of "MBIC", "SIC", "BIC", "MBIC", "Hannan-Quinn","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter.
+	  Penalty choice for univariate changepoint analysis of mappings. Choice of "MBIC", "SIC", "BIC", "Hannan-Quinn","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter.
 }
   \item{pen.value}{
 	  The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
@@ -46,11 +46,7 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,
 	An object of S4 class "cpt.geo" is returned. The slots \code{dist.cpts} and \code{ang.cpts} return the changepoints identified in each measure. 
 }
 \references{
-Normal: Chen, J. and Gupta, A. K. (2000) \emph{Parametric statistical change point analysis}, Birkhauser
-
-PELT Algorithm: Killick R, Fearnhead P, Eckley IA (2012) Optimal detection of changepoints with a linear computational cost, \emph{JASA} \bold{107(500)}, 1590--1598
-
-MBIC: Zhang, N. R. and Siegmund, D. O. (2007) A Modified Bayes Information Criterion with Applications to the Analysis of Comparative Genomic Hybridization Data. \emph{Biometrics} \bold{63}, 22-32.
+GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-Dimensional Changepoint Detection via a Geometrically Inspired Mapping, \emph{arXiv e-prints arXiv:2001.05241}
 }
 \author{
 	Thomas Grundy
@@ -60,6 +56,7 @@ MBIC: Zhang, N. R. and Siegmund, D. O. (2007) A Modified Bayes Information Crite
 }
 \examples{
 ##Variance change in all series
+set.seed(1)
 X <- rbind(matrix(rnorm(100*50),ncol=50),matrix(rnorm(100*50,0,2),ncol=50))
 ans <- geomcp(X)
 summary(ans)
@@ -67,12 +64,21 @@ plot(ans)
 
 ##Mean change in 50% of series with a manual reference vector and non-parametric univariate 
 ##changepoint detection using 10 quantiles with a BIC penalty and min seg length of 5
+set.seed(1)
 Y <- rbind(matrix(rnorm(100*20),ncol=20),cbind(matrix(rnorm(100*10),ncol=10),
 					       matrix(rnorm(100*10,1),ncol=10)))
-res <- geomcp(Y,penalty='BIC',test.stat='Empirical',nquantiles=10,ref.vec='Manual',
+res <- geomcp(Y,penalty='Manual',pen.value=30,test.stat='Empirical',nquantiles=10,ref.vec='Manual',
 	      ref.vec.value=seq(1,10,length.out=20),msl=5)
 summary(res)
 plot(res)
+
+##Different plot types for above example
+#Plots mappings and changepoints
+plot(res,plot.type='mappings') 
+#Heatmap of data with changepoints not shown
+plot(res,plot.type='full.data',changepoints=FALSE,scale.series=TRUE)
+#Specific series with mappings and changepoints shown.
+plot(res,plot.type='series',show.series=c(1,5,10),add.mappings=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
