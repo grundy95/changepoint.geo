@@ -208,7 +208,7 @@ setMethod('show','cpt.geo',function(object){
 })
 
 #Plot function
-setMethod('plot','cpt.geo',function(x,ylab='Value',xlab='Time',changepoints=TRUE,plot.type='mappings',show.series=c(1),add.mappings=FALSE){
+setMethod('plot','cpt.geo',function(x,plot.type='mappings',changepoints=TRUE,scale.series=FALSE,show.series=c(1),add.mappings=FALSE){
 		  plot.type <- toupper(plot.type)
 		  if(sum(show.series%in%1:length(data.set(x)[1,]))!=length(show.series)){
 			  stop('One or more of your selected series is invalid - alter the show.series variable.')
@@ -218,27 +218,36 @@ setMethod('plot','cpt.geo',function(x,ylab='Value',xlab='Time',changepoints=TRUE
 			Data <- data.frame(Time=rep(1:length(distance(x)),2),Mapping=as.factor(c(rep('Distance',length(distance(x))),rep('Angle',length(angle(x))))),Value=c(distance(x),angle(x)))
 			p <- ggplot(Data,aes(x=Time,y=Value))+
 				geom_line()+
-				facet_grid(Mapping ~ .,scales='free')+
-				labs(x=xlab,y=ylab)
+				facet_grid(Mapping ~ .,scales='free')
 		  }else if(plot.type=='FULL.DATA'){
+			if(scale.series==TRUE){
+				data.set(x) <- apply(data.set(x),2,function(x){(x-median(x))/mad(x)})
+				if(sum(is.nan(data.set(x)))>0){
+					stop('Series can not be scaled appropriately')
+				}
+			}
 			Data <- data.frame(Time=rep(1:length(distance(x)),each=length(data.set(x)[1,])),Series=rep(c(1:(length(data.set(x)[1,]))),length(distance(x))),Value=as.vector(t(data.set(x))))
 		  	p <- ggplot(Data,aes(Time,Series,fill=Value))+
 				geom_tile()+
 				scale_fill_gradient(low='white',high='green4')+
 				scale_y_reverse()
 		  }else if(plot.type=='SERIES'){
-			if(!add.mappings){
+			if(scale.series==TRUE){
+				data.set(x) <- apply(data.set(x),2,function(x){(x-median(x))/mad(x)})
+				if(sum(is.nan(data.set(x)))>0){
+					stop('Series can not be scaled appropriately')
+				}
+			}
+			if(add.mappings==FALSE){
 				Data <- data.frame(Time=rep(1:length(distance(x)),each=length(show.series)),Series=as.factor(show.series),Value=as.vector(t(data.set(x)[,show.series])))
 		  		p <- ggplot(Data,aes(x=Time,y=Value))+
 					geom_line()+
-					facet_grid(Series~.,scales='free')+
-					labs(x=xlab,y=ylab)
+					facet_grid(Series~.,scales='free')
 			}else{
 				Data <- data.frame(Time=rep(1:length(distance(x)),each=length(show.series)+2),Series=factor(c('Angle','Distance',show.series),levels=c('Angle','Distance',show.series),labels=c('Angle','Distance',show.series)),Value=as.vector(t(cbind(angle(x),distance(x),data.set(x)[,show.series]))))
 		  		p <- ggplot(Data,aes(x=Time,y=Value))+
 					geom_line()+
-					facet_grid(Series~.,scales='free')+
-					labs(x=xlab,y=ylab)
+					facet_grid(Series~.,scales='free')
 			}	
 		  }else{
 			  stop('plot.type not recognized. Use either "mappings", "full.data" or "series".')
