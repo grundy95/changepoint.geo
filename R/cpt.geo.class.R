@@ -210,9 +210,6 @@ setMethod('show','cpt.geo',function(object){
 #Plot function
 setMethod('plot','cpt.geo',function(x,plot.type='mappings',changepoints=TRUE,scale.series=FALSE,show.series=c(1),add.mappings=FALSE){
 		  plot.type <- toupper(plot.type)
-		  if(sum(show.series%in%1:length(data.set(x)[1,]))!=length(show.series)){
-			  stop('One or more of your selected series is invalid - alter the show.series variable.')
-		  }
 		  Time <- Mapping <- Value <- Series <- Changepoints <- Cpts <- NULL
 		  if(plot.type=='MAPPINGS'){
 			Data <- data.frame(Time=rep(1:length(distance(x)),2),Mapping=as.factor(c(rep('Distance',length(distance(x))),rep('Angle',length(angle(x))))),Value=c(distance(x),angle(x)))
@@ -232,6 +229,9 @@ setMethod('plot','cpt.geo',function(x,plot.type='mappings',changepoints=TRUE,sca
 				scale_fill_gradient(low='white',high='green4')+
 				scale_y_reverse()
 		  }else if(plot.type=='SERIES'){
+		  	if(sum(show.series%in%1:length(data.set(x)[1,]))!=length(show.series)){
+				  stop('One or more of your selected series is invalid - alter the show.series variable.')
+		  	}
 			if(scale.series==TRUE){
 				data.set(x) <- apply(data.set(x),2,function(x){(x-median(x))/mad(x)})
 				if(sum(is.nan(data.set(x)))>0){
