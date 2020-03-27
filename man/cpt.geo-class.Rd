@@ -85,7 +85,7 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
 }
 
 \seealso{
-	\code{\link{geomcp}},\code{\link[GeometricChangepoint]{plot-methods}},\code{\link[=ggplot2]{ggplot}}
+	\code{\link{geomcp}},\code{\link[changepoint.geo]{plot-methods}},\code{\link[=ggplot2]{ggplot}}
 }
 \examples{
 showClass("cpt.geo")	#shows the structure of the cpt.geo class.

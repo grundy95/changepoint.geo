@@ -1,5 +1,5 @@
 context('geomcp tests')
-library('GeometricChangepoint')
+library('changepoint.geo')
 library('testthat')
 library('MASS')
 

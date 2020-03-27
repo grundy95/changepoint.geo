@@ -52,7 +52,7 @@ GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-Dimensional Change
 	Thomas Grundy
 }
 \seealso{
-	\code{\linkS4class{cpt.geo}},\code{\link[GeometricChangepoint]{plot-methods}}
+	\code{\linkS4class{cpt.geo}},\code{\link[changepoint.geo]{plot-methods}}
 }
 \examples{
 ##Variance change in all series

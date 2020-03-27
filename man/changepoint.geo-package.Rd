@@ -1,5 +1,5 @@
-\name{GeometricChangepoint-package}
-\alias{,GeometricChangepoint-package,GeometricChangepoint}
+\name{changepoint.geo-package}
+\alias{,changepoint.geo-package,changepoint.geo}
 \docType{package}
 \title{
 	Geometrically Inspired Multivariate Changepoint Detection
@@ -9,13 +9,13 @@
 \details{
 
 The DESCRIPTION file:
-\packageDESCRIPTION{GeometricChangepoint}
-\packageIndices{GeometricChangepoint}
+\packageDESCRIPTION{changepoint.geo}
+\packageIndices{changepoint.geo}
 }
 \author{
-\packageAuthor{GeometricChangepoint}
+\packageAuthor{changepoint.geo}
 
-Maintainer: \packageMaintainer{GeometricChangepoint}
+Maintainer: \packageMaintainer{changepoint.geo}
 }
 \references{
 GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-Dimensional Changepoint Detection via a Geometrically Inspired Mapping, \emph{arXiv e-prints arXiv:2001.05241}
