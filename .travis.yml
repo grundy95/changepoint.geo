@@ -5,7 +5,6 @@ warnings_are_errors: false
 r_check_revdep: false
 r:
   - 3.6
-  - oldrel
   - release
   - devel
 
