@@ -18,7 +18,7 @@ The DESCRIPTION file:
 Maintainer: \packageMaintainer{changepoint.geo}
 }
 \references{
-GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-Dimensional Changepoint Detection via a Geometrically Inspired Mapping, \emph{arXiv e-prints arXiv:2001.05241}
+GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-dimensional changepoint detection via a geometrically inspired mapping, \emph{Stat Comput}.
 }
 \keyword{changepoint}
 \keyword{geometry}

@@ -18,7 +18,7 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,
 	  Penalty choice for univariate changepoint analysis of mappings. Choice of "MBIC", "SIC", "BIC", "Hannan-Quinn","Manual". If "Manual" is specified, the manual penalty is contained in the pen.value parameter.
 }
   \item{pen.value}{
-	  The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use.
+	  The value of the penalty when using the "Manual" penalty option - this can be a numeric value or text giving the formula to use, see \code{\link[changepoint]{cpt.meanvar}} for more details.
 }
   \item{test.stat}{
 	  The assumed test statistic/distribution of the mapped data. Currently only "Normal" and "Empirical" are supported.
@@ -46,7 +46,7 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,
 	An object of S4 class "cpt.geo" is returned. The slots \code{dist.cpts} and \code{ang.cpts} return the changepoints identified in each measure. 
 }
 \references{
-GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-Dimensional Changepoint Detection via a Geometrically Inspired Mapping, \emph{arXiv e-prints arXiv:2001.05241}
+GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-dimensional changepoint detection via a geometrically inspired mapping, \emph{Stat Comput}.
 }
 \author{
 	Thomas Grundy
