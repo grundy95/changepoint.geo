@@ -1,4 +1,4 @@
 library(testthat)
-library(GeometricChangepoint)
+library(changepoint.geo)
 
-test_check('GeometricChangepoint')
+test_check('changepoint.geo')

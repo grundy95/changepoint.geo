@@ -1,4 +1,4 @@
-setClass('cpt.geo',representation(data.set='matrix',distance='numeric',angle='numeric',penalty='character',pen.value='numeric',test.stat='character',msl='numeric',nquantiles='numeric',dist.cpts='numeric',ang.cpts='numeric', date='character',version='character'),prototype=prototype(version=as(packageVersion("GeometricChangepoint"),'character'),date=date()))
+setClass('cpt.geo',representation(data.set='matrix',distance='numeric',angle='numeric',penalty='character',pen.value='numeric',test.stat='character',msl='numeric',nquantiles='numeric',dist.cpts='numeric',ang.cpts='numeric', date='character',version='character'),prototype=prototype(version=as(packageVersion("changepoint.geo"),'character'),date=date()))
 
 if(!isGeneric('data.set')){	
 	if(is.function('data.set')){
@@ -189,7 +189,7 @@ setReplaceMethod('ang.cpts','cpt.geo',function(object,value){
 
 #Summary
 setMethod('summary','cpt.geo',function(object){
-		   cat('Created using GeometricChangepoint version',object@version,'\n')
+		   cat('Created using changepoint.geo version',object@version,'\n')
 		   cat('Univariate Test Stat	: ',test.stat(object),'\n')
 		   cat('Type of penalty		: ',penalty(object),' with value ',pen.value(object),'\n')
 		   cat('Minimum Segment Length	: ',msl(object),'\n')
