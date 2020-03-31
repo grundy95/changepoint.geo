@@ -4,13 +4,9 @@
 \title{
 	Geometrically Inspired Multivariate Changepoint Detection
 }
-\description{Implements the high-dimensional changepoint detection method GeomCP and the related mappings used for changepoint detection. These methods view the changepoint problem from a geometrical viewpoint and aim to extract relevant geometrical features in order to detect changepoints. The geomcp(), function should be your first point of call.
-}
+\description{Implements the high-dimensional changepoint detection method GeomCP \insertCite{Grundy2020}{changepoint.geo} and the related mappings used for changepoint detection. These methods view the changepoint problem from a geometrical viewpoint and aim to extract relevant geometrical features in order to detect changepoints. The geomcp() function should be your first point of call.}
 \details{
-
-The DESCRIPTION file:
-\packageDESCRIPTION{changepoint.geo}
-\packageIndices{changepoint.geo}
+	\packageDESCRIPTION{changepoint.geo}
 }
 \author{
 \packageAuthor{changepoint.geo}
@@ -18,7 +14,9 @@ The DESCRIPTION file:
 Maintainer: \packageMaintainer{changepoint.geo}
 }
 \references{
-GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-dimensional changepoint detection via a geometrically inspired mapping, \emph{Stat Comput}.
+	\insertRef{Grundy2020}{changepoint.geo}
+
+	\insertRef{Killick2012}{changepoint.geo}
 }
 \keyword{changepoint}
 \keyword{geometry}
