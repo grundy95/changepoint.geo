@@ -4,6 +4,7 @@ import(ggplot2)
 import(changepoint)
 import(changepoint.np)
 importFrom("methods","new")
+importFrom(Rdpack,reprompt)
 
 export('geomcp','distance.mapping','angle.mapping')
 
