@@ -1,14 +1,16 @@
 Package: changepoint.geo 
 Type: Package
 Title: Geometrically Inspired Multivariate Changepoint Detection
-Version: 1.0.0
+Version: 1.0.1
 Date: 2020-03-29
 Authors@R: c(person("Thomas","Grundy",role=c("aut","cre"),email="t.grundy1@lancaster.ac.uk"),
 		person("Rebecca","Killick",role="ths"))
 Maintainer: Thomas Grundy <t.grundy1@lancaster.ac.uk>
-URL: https://github.com/Grundy95/changepoint.geo/
-Description: Implements the high-dimensional changepoint detection method GeomCP and the related mappings used for changepoint detection. These methods view the changepoint problem from a geometrical viewpoint and aim to extract relevant geometrical features in order to detect changepoints. The geomcp() function should be your first point of call.
+URL: https://github.com/grundy95/changepoint.geo/
+Description: Implements the high-dimensional changepoint detection method GeomCP and the related mappings used for changepoint detection. These methods view the changepoint problem from a geometrical viewpoint and aim to extract relevant geometrical features in order to detect changepoints. The geomcp() function should be your first point of call. References: Grundy et al. (2020) <doi:10.1007/s11222-020-09940-y>. 
 Depends: R(>= 3.6), changepoint, changepoint.np, methods, ggplot2
+Imports: Rdpack
+RdMacros: Rdpack
 Suggests: testthat, MASS
 License: GPL
 LazyLoad: yes

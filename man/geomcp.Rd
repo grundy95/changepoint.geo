@@ -4,7 +4,7 @@
 	Multivariate changepoint detection via two geometric mappings
 }
 \description{
-	Performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. Univariate changepoint detection is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
+	Implements the GeomCP algorithm \insertCite{Grundy2020}{changepoint.geo}. This algorithm performs two geometric mappings on multivariate time series based on the Euclidean distance and principle angle between each time vector and a pre-specified reference vector. The univariate changepoint detection method PELT, \insertCite{Killick2012}{changepoint.geo}, is then performed on the two mappings to identify changepoints which correspond to those in the original multivariate time series.
 }
 \usage{
 geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,
@@ -46,7 +46,9 @@ geomcp(X, penalty = "MBIC", pen.value = 0, test.stat = "Normal", msl = 2,
 	An object of S4 class "cpt.geo" is returned. The slots \code{dist.cpts} and \code{ang.cpts} return the changepoints identified in each measure. 
 }
 \references{
-GeomCP Algorithm: Grundy T, Killick R, Mihaylov G (2020) High-dimensional changepoint detection via a geometrically inspired mapping, \emph{Stat Comput}.
+	\insertRef{Grundy2020}{changepoint.geo}
+
+	\insertRef{Killick2012}{changepoint.geo}
 }
 \author{
 	Thomas Grundy
