@@ -12,7 +12,7 @@
 }
 \usage{
 class_input(data.set, distance, angle, penalty, pen.value, test.stat,
-	    msl, nquantiles, dist.cpts, ang.cpts)
+	    msl, nquantiles, dist.cpts, ang.cpts, dist.out, ang.out)
 }
 \arguments{
   \item{data.set}{
@@ -43,6 +43,13 @@ class_input(data.set, distance, angle, penalty, pen.value, test.stat,
 	  Changepoint locations in distance mappings.
 }
   \item{ang.cpts}{
+	  Changepoint locations in angle mappings.
+}
+  \item{dist.out}{
+	  \code{\linkS4class{cpt}} object that contains the output of the PELT analysis of the distance mappings. See \code{\link[changepoint]{cpt.meanvar}} and documentation within to apply methods from the changepoint package to this object. 
+}
+  \item{ang.out}{
+	  \code{\linkS4class{cpt}} object that contains the output of the PELT analysis of the angle mappings. See \code{\link[changepoint]{cpt.meanvar}} and documentation within to apply methods from the changepoint package to this object. 
 	  Changepoint locations in angle mappings.
 }
 }

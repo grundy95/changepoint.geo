@@ -4,11 +4,16 @@
 \docType{class}
 \alias{ang.cpts,cpt.geo-method}
 \alias{ang.cpts<-,cpt.geo-method}
+\alias{ang.out,cpt.geo-method}
+\alias{ang.out<-,cpt.geo-method}
 \alias{data.set,cpt.geo-method}
 \alias{data.set<-,cpt.geo-method}
 \alias{dist.cpts,cpt.geo-method}
 \alias{dist.cpts<-,cpt.geo-method}
 \alias{dist.cpts-methods,cpt.geo-method}
+\alias{dist.out,cpt.geo-method}
+\alias{dist.out<-,cpt.geo-method}
+\alias{dist.out-methods,cpt.geo-method}
 \alias{distance,cpt.geo-method}
 \alias{distance<-,cpt.geo-method}
 \alias{angle,cpt.geo-method}
@@ -49,6 +54,8 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
     \item{\code{nquantiles}:}{Object of class \code{"numeric"}, number of quantiles used in the empirical distribution.}
     \item{\code{dist.cpts}:}{Object of class \code{"numeric"}, changepoint locations in the distances.}
     \item{\code{ang.cpts}:}{Object of class \code{"numeric"}, changepoint locations in the angles.}
+    \item{\code{dist.out}:}{Object of class \code{\linkS4class{cpt}}, contains the output of the PELT analysis of the distance mappings. See \code{\link[changepoint]{cpt.meanvar}} and documentation within to apply methods from the changepoint package to this object.}
+    \item{\code{ang.out}:}{Object of class \code{\linkS4class{cpt}}, contains the output of the PELT analysis of the angle mappings. See \code{\link[changepoint]{cpt.meanvar}} and documentation within to apply methods from the changepoint package to this object.}
     \item{\code{date}:}{Object of class \code{"character"}, date the analysis was run.}
     \item{\code{version}:}{Object of class \code{"character"}, version number of the package when analysis was run.}
   }
@@ -57,12 +64,16 @@ Objects can be created by calls of the form \code{new("cpt.geo", ...)}.
   \describe{
     \item{ang.cpts}{\code{signature(object = "cpt.geo")}: retrieves ang.cpts slot.}
     \item{ang.cpts<-}{\code{signature(object = "cpt.geo")}: replaces ang.cpts slot. }
+    \item{ang.out}{\code{signature(object = "cpt.geo")}: retrieves ang.out slot.}
+    \item{ang.out<-}{\code{signature(object = "cpt.geo")}: replaces ang.out slot. }
     \item{angle}{\code{signature(object = "cpt.geo")}: retrieves angle slot.}
     \item{angle<-}{\code{signature(object = "cpt.geo")}: replaces angle slot.}
     \item{data.set}{\code{signature(object = "cpt.geo")}: retrieves data.set slot. }
     \item{data.set<-}{\code{signature(object = "cpt.geo")}: replaces data.set slot. }
     \item{dist.cpts}{\code{signature(object = "cpt.geo")}: retrieves dist.cpts slot.}
     \item{dist.cpts<-}{\code{signature(object = "cpt.geo")}: replaces dist.cpts slot.}
+    \item{dist.out}{\code{signature(object = "cpt.geo")}: retrieves dist.out slot.}
+    \item{dist.out<-}{\code{signature(object = "cpt.geo")}: replaces dist.out slot.}
     \item{distance}{\code{signature(object = "cpt.geo")}: retrieves distance slot.}
     \item{distance<-}{\code{signature(object = "cpt.geo")}: replaces distance slot. }
     \item{msl}{\code{signature(object = "cpt.geo")}: retrieves msl slot. }
