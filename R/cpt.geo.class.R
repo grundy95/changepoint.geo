@@ -1,4 +1,4 @@
-setClass('cpt.geo',representation(data.set='matrix',distance='numeric',angle='numeric',penalty='character',pen.value='numeric',test.stat='character',msl='numeric',nquantiles='numeric',dist.cpts='numeric',ang.cpts='numeric', date='character',version='character'),prototype=prototype(version=as(packageVersion("changepoint.geo"),'character'),date=date()))
+setClass('cpt.geo',representation(data.set='matrix',distance='numeric',angle='numeric',penalty='character',pen.value='numeric',test.stat='character',msl='numeric',nquantiles='numeric',dist.cpts='numeric',ang.cpts='numeric',dist.out='cpt',ang.out='cpt', date='character',version='character'),prototype=prototype(version=as(packageVersion("changepoint.geo"),'character'),date=date()))
 
 if(!isGeneric('data.set')){	
 	if(is.function('data.set')){
@@ -135,6 +135,32 @@ if(!isGeneric('ang.cpts')){
 }
 setMethod('ang.cpts','cpt.geo',function(object) object@ang.cpts)
 
+if(!isGeneric('dist.out')){
+	if(is.function('dist.out')){
+		fun <- dist.out
+	}
+	else{
+		fun <- function(object){
+			standardGeneric('dist.out')
+		}
+	}
+	setGeneric('dist.out',fun)
+}
+setMethod('dist.out','cpt.geo',function(object) object@dist.out)
+
+if(!isGeneric('ang.out')){
+	if(is.function('ang.out')){
+		fun <- ang.out
+	}
+	else{
+		fun <- function(object){
+			standardGeneric('ang.out')
+		}
+	}
+	setGeneric('ang.out',fun)
+}
+setMethod('ang.out','cpt.geo',function(object) object@ang.out)
+
 #Replacement functions for slots
 setGeneric('data.set<-', function(object,value) standardGeneric('data.set<-'))
 setReplaceMethod('data.set','cpt.geo',function(object,value){
@@ -184,6 +210,17 @@ setReplaceMethod('dist.cpts','cpt.geo',function(object,value){
 setGeneric('ang.cpts<-', function(object,value) standardGeneric('ang.cpts<-'))
 setReplaceMethod('ang.cpts','cpt.geo',function(object,value){
 			 object@ang.cpts <- value
+			 return(object)
+})
+setGeneric('dist.out<-', function(object,value) standardGeneric('dist.out<-'))
+
+setReplaceMethod('dist.out','cpt.geo',function(object,value){
+			 object@dist.out <- value
+			 return(object)
+})
+setGeneric('ang.out<-', function(object,value) standardGeneric('ang.out<-'))
+setReplaceMethod('ang.out','cpt.geo',function(object,value){
+			 object@ang.out <- value
 			 return(object)
 })
 
