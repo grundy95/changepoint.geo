@@ -1,0 +1,57 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# changepoint.geo 
+
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/changepoint.geo )](https://CRAN.R-project.org/package=changepoint.geo )
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/changepoint.geo?color=blue)](https://r-pkg.org/pkg/changepoint.geo)
+[![R-CMD-check](https://github.com/grundy95/changepoint.geo/workflows/R-CMD-check/badge.svg)](https://github.com/grundy95/changepoint.geo/actions)
+[![codecov](https://codecov.io/gh/grundy95/changepoint.geo/branch/master/graph/badge.svg?token=97a3PkoGw6)](https://codecov.io/gh/grundy95/changepoint.geo)
+<!-- badges: end -->
+
+The goal of changepoint.geo is to implement the high-dimensional changepoint detection method GeomCP described in [Grundy et al. (2020)](doi:10.1007/s11222-020-09940-y)
+
+## Installation
+
+You can install the released version of changepoint.geo from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("changepoint.geo ")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("grundy95/changepoint.geo")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(changepoint.geo )
+set.seed(1)
+X <- rbind(matrix(rnorm(100*50),ncol=50),matrix(rnorm(100*50,0,2),ncol=50))
+ans <- geomcp(X)
+summary(ans)
+plot(ans)
+```
+
+
+<!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>. -->
+
+
