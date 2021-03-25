@@ -30,7 +30,7 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(pen.value(X),'numeric')
 		  expect_is(test.stat(X),'character')
 		  expect_is(msl(X),'numeric')
-		  expect_is(nquantiles(X),'integer')
+		  expect_error(nquantiles(X),'nquantiles not used with Normal test statistic')
 		  expect_is(dist.cpts(X),'integer')
 		  expect_is(ang.cpts(X),'integer')
 		  expect_is(dist.out(X),'cpt')
@@ -39,6 +39,7 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(show(X),'NULL')
 		  expect_is(plot(X),'ggplot')
 })
+
 
 
 

@@ -142,10 +142,39 @@ for(d in 1:length(data)){
 	}
 }
 
+test_that("data frames converted to matrices & univariate matrices not allowed",{
+  X = data.frame(rnorm(100))
+  expect_error(geomcp(X), 'Univariate changepoint analysis is not supported')
+})
+
+test_that("Penalty choice is recognized",{
+  expect_error(geomcp(MeanVarData, penalty='AIC'),
+               'Univariate penalty choice not recognized; should be "MBIC", "BIC", "SIC","Hannan-Quinn" or "Manual"')
+})
+
+test_that("test.stat is recognized",{
+  expect_error(geomcp(MeanVarData, test.stat='Gaussian'),
+               "Invalid test statistic, must be Normal or Empirical")
+})
+
+test_that("nquantiles automatically updated if left as 1",{
+  expect_is(geomcp(MeanVarData, test.stat='Empirical'), "cpt.geo")
+})
+
+test_that("MAD argument is logical",{
+  expect_error(geomcp(MeanVarData, MAD='true'),
+               "MAD should be logical; TRUE or FALSE.")
+})
+
+test_that("Reference vector is numeric or correc type",{
+  expect_error(geomcp(MeanVarData, ref.vec='Manual', ref.vec.value=rep('test',100)),
+               "Reference vector value should be a vector of type numeric")
+  expect_error(geomcp(MeanVarData, ref.vec='Man'),
+               'Reference vector type not recognized; should be "Default" or "Manual"')
+})
 
 
 
-		
 
 
 

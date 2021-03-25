@@ -1,6 +1,6 @@
 setClass('cpt.geo',representation(data.set='matrix',distance='numeric',angle='numeric',penalty='character',pen.value='numeric',test.stat='character',msl='numeric',nquantiles='numeric',dist.cpts='numeric',ang.cpts='numeric',dist.out='cpt',ang.out='cpt', date='character',version='character'),prototype=prototype(version=as(packageVersion("changepoint.geo"),'character'),date=date()))
 
-if(!isGeneric('data.set')){	
+if(!isGeneric('data.set')){
 	if(is.function('data.set')){
 	fun <- data.set
 	}
@@ -103,7 +103,7 @@ if(!isGeneric('nquantiles')){
 	setGeneric('nquantiles',fun)
 }
 setMethod('nquantiles','cpt.geo',function(object){
-		  if(object@nquantiles==0){
+		  if(object@nquantiles==1){
 			  stop('nquantiles not used with Normal test statistic')
 		  }
 		  return(object@nquantiles)
@@ -285,7 +285,7 @@ setMethod('plot','cpt.geo',function(x,plot.type='mappings',changepoints=TRUE,sca
 		  		p <- ggplot(Data,aes(x=Time,y=Value))+
 					geom_line()+
 					facet_grid(Series~.,scales='free')
-			}	
+			}
 		  }else{
 			  stop('plot.type not recognized. Use either "mappings", "full.data" or "series".')
 		  }
