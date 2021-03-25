@@ -42,7 +42,7 @@ test_that(paste0('Test cpt.geo class'),{
 
 test_that("empirical test stat class",{
   X = geomcp(MeanVarData, test.stat='Empirical')
-  expect_is(nquantiles(X), 'integer')
+  expect_is(nquantiles(X), 'numeric')
 })
 
 
