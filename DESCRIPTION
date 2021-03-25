@@ -1,7 +1,7 @@
 Package: changepoint.geo 
 Type: Package
 Title: Geometrically Inspired Multivariate Changepoint Detection
-Version: 1.1.0
+Version: 1.1.1
 Date: 2020-11-18
 Authors@R: c(person("Thomas","Grundy",role=c("aut","cre"),email="t.grundy1@lancaster.ac.uk"),
 		person("Rebecca","Killick",role="ths"))
