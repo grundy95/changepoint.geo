@@ -15,7 +15,9 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/changepoint.geo?color=b
 
 The goal of changepoint.geo is to implement the high-dimensional
 changepoint detection method GeomCP described in [Grundy et
-al. (2020)](doi:10.1007/s11222-020-09940-y)
+al. (2020)](https://link.springer.com/article/10.1007/s11222-020-09940-y).
+This method allows for the detection of changes in mean and variance in
+high-dimensional time series. The main function is `geomcp()`.
 
 ## Installation
 
@@ -35,7 +37,8 @@ devtools::install_github("grundy95/changepoint.geo")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows the main functionality of the
+package:
 
 ``` r
 library(changepoint.geo )
