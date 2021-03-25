@@ -40,6 +40,9 @@ test_that(paste0('Test cpt.geo class'),{
 		  expect_is(plot(X),'ggplot')
 })
 
-
+test_that("empirical test stat class",{
+  X = geomcp(MeanVarData, test.stat='Empirical')
+  expect_is(nquantiles(X), 'integer')
+})
 
 
